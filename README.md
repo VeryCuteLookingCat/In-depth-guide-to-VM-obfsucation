@@ -25,3 +25,46 @@ instructions = {
   end
 end
 ```
+It is very similar in the context of ASM.
+## Deserializer ( LUA )
+A deserializer is the main component in an obfuscated script that converts custom bytecode into executable instructions. The custom bytecode is typically encrypted, modified, and mutated by obfuscators to make reverse engineering more difficult. This decoding process often involves complex mathematical operations and markers embedded within the bytecode. Typically, the deserializer reads an initial bit or group of bits that indicate the size or type of the next instruction. It then reads the required number of subsequent bits to fully reconstruct the instruction before moving on to the next instruction bit or marker. This process repeats until the entire bytecode stream has been processed.
+# Advanced Techniques
+## Mutations
+Mutations can affect every part of an obfuscated binary or script. They often provide the highest level of security among obfuscation techniques. Mutations involve maintaining a pool of different variations of CPUs, deserializers, bytecode formats, and other components. This approach introduces chaos, randomness, and unpredictability into the obfuscated output. For example, Variation #1 of the CPU could be paired with Variation #6 of the deserializer, ensuring that no two outputs share any form of similarity.
+## Control Flow Obfuscation
+Control flow obfuscation is usually one of the hardest parts to reverse engineer. It tampers with the linear flow of code to add chaos. Instead of having the CPU contain a list of all of the opcodes in order, It swaps the order of the code around. Think of taking a block of code, putting it in a bag, tossing it around and the contents are obfuscated. This is possible by having a loop that keeps track of the iterations. Each time the iteration count increases, a new segment of code is ran. Example:
+```lua
+local inst = 0
+local TestVariable = 0
+while true do
+    if(inst == 0) then
+        TestVariable = 2
+        inst = 1
+    end
+    if(inst == 2) then
+        TestVariable = TestVariable + 2
+        inst = -1
+    end
+    if(inst == 3) then
+      TestVariable = -1
+      inst = 2
+    end
+    if(inst == 1) then
+      TestVariable = TestVariable + 2
+      inst = 3
+    end
+    if(inst == -1) then
+        break
+    end
+end
+
+-- TestVariable is equal to 1
+--[[
+Cleaned:
+local TestVariable = 0
+TestVariable = 2
+TestVariable = TestVariable + 2
+TestVariable = -1
+TestVariable = TestVariable + 2
+]]
+```
