@@ -42,7 +42,7 @@ A deserializer is the main component in an obfuscated script that converts custo
 -------------------
 |   Virtual CPU   |
 | Executes Opcodes|
-|Manipualtes Stack|
+|Manipulates Stack|
 | Mimics Real CPU |
 -------------------
 ```
@@ -89,9 +89,9 @@ TestVariable = TestVariable + 2
 ]]
 ```
 ## Anti Debugging
-All advanced obfuscators use some form of anti-debugging. These techniques can be more diverse and harder to categorize than others. There are many different ways to check for debuggers. The most basic example would be _CheckForMyDebugger in MSVC. Another very common check is to scan through all processes to see if any match a known registry of debuggers, but this could be slow and ineffecient. But for those intrested, some advanced techniques would check for hardware breakpoints, using timers to check for discrepancies, and making SEH (Structured Exception Handling) traps.
+All advanced obfuscators use some form of anti-debugging. These techniques can be more diverse and harder to categorize than others. There are many different ways to check for debuggers. The most basic example would be _CheckForMyDebugger in MSVC. Another very common check is to scan through all processes to see if any match a known registry of debuggers, but this could be slow and inefficient. But for those interested, some advanced techniques would check for hardware breakpoints, using timers to check for discrepancies, and making SEH (Structured Exception Handling) traps.
 ## Packing ( Binaries )
-Packing is typically performed after obfuscation. In Lua, It converts the entire program into a single compressed or encoded string that is later unpacked and executed at runtime. But in the context of binaries, it converts the entire program into compressed sections ( ex: .upx ). The unpacker decopresses the packed section into memory and transfers RIP (Register Instruction Pointer) to it. The primary goal of packing is to reduce size, hide the internal structure, and make static analysis significantly more difficult. This is done via an unpacker that replaces 'entry' or 'WinMain'. The unpacker decodes the string into the original program and executes it. The most popular packer is [UPX](https://github.com/upx/upx). In short packing helps with: reducing file size, hiding program structure, and avoid static analysis and AV signatures.
+Packing is typically performed after obfuscation. In Lua, It converts the entire program into a single compressed or encoded string that is later unpacked and executed at runtime. But in the context of binaries, it converts the entire program into compressed sections ( ex: .upx ). The unpacker decompresses the packed section into memory and transfers RIP (Register Instruction Pointer) to it. (The RIP is a CPU register that holds the address of the next instruction to execute) When transfering the RIP into the unpacked memory, The processor executes the code in memory. The primary goal of packing is to reduce size, hide the internal structure, and make static analysis significantly more difficult. This is done via an unpacker that replaces 'entry' or 'WinMain'. The unpacker decodes the string into the original program and executes it. The most popular packer is [UPX](https://github.com/upx/upx). In short packing helps with: reducing file size, hiding program structure, and avoid static analysis and AV signatures.
 ## Polymorphism
 Polymorphism is often confused with mutations, as they share similar goals. The only difference being: Polymorphism changes the structure of local functions inside of the binary, Mutations change the structure of the vm.
 Let's say you have function add(x, y), Polymorphism will convert that function into something harder to read:
@@ -115,3 +115,4 @@ int add(int a, int b) {
 Every obfuscated build could generate a different version of the same logic. this breaks static analysis and signature based detection.
 ## Why?
 Why Obfuscate? Obfuscators are used in many real world scenarios, either for good or bad. Many legitimate examples use obfuscators for: DRM ( Digital Rights Managment ) for games/programs, Anti-Cheats to hide integrity and functionality, Protection of IP ( Intellectual Property ), and more. But an illegitimate example could be Malware ( Malicious Software ).
+
