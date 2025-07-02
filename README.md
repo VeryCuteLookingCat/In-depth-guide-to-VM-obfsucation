@@ -72,4 +72,26 @@ TestVariable = TestVariable + 2
 ]]
 ```
 ## Anti Debugging
-All advanced obfuscators use some kind of anti debugging. These techniques aren't as pinpoint as the rest of the techniques. There are many different ways to check for debuggers. The most basic example would be _CheckForMyDebugger in MSVC.
+All advanced obfuscators use some kind of anti debugging. These techniques aren't as pinpoint as the rest of the techniques. There are many different ways to check for debuggers. The most basic example would be _CheckForMyDebugger in MSVC. Another very common check is to scan through all processes to see if any match a known registry of debuggers, but this could be slow and ineffecient.
+## Packing ( Binaries )
+Packing is typically performed after obfuscation. It converts the entire program into a single compressed or encoded string that is later unpacked and executed at runtime. The primary goal of packing is to reduce size, hide the internal structure, and make static analysis significantly more difficult. This is done via an unpacker that replaces 'entry' or 'WinMain'. The unpacker decodes the string into the original program and executes it. The most popular packer is (UPX)[https://github.com/upx/upx].
+## Polymorphism
+Polymorphism can be mixed up with mutations, it's goal is extremely similar to mutations. The only difference being: Polymorphism changes the structure of local functions inside of the binary, Mutations change the structure of the vm.
+Let's say you have function add(x, y), Polymorphism will convert that function into something harder to read:
+```C
+int add(int a, int b) {
+  return a + b;
+}
+```
+An obfuscator will use polymorphism to turn it into something like this:
+```C
+int add(int a, int b) {
+  int x1 = a;
+  int x2 = b;
+  while(x2 != 0) {
+    x1++;
+    x2--;
+  }
+  return x1;
+}
+```
