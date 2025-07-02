@@ -78,13 +78,13 @@ Packing is typically performed after obfuscation. It converts the entire program
 ## Polymorphism
 Polymorphism can be mixed up with mutations, it's goal is extremely similar to mutations. The only difference being: Polymorphism changes the structure of local functions inside of the binary, Mutations change the structure of the vm.
 Let's say you have function add(x, y), Polymorphism will convert that function into something harder to read:
-```C
+```cpp
 int add(int a, int b) {
   return a + b;
 }
 ```
 An obfuscator will use polymorphism to turn it into something like this:
-```C
+```cpp
 int add(int a, int b) {
   int x1 = a;
   int x2 = b;
