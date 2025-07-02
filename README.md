@@ -7,7 +7,8 @@ What exactly does the virtual CPU do? Well, the virtual CPU is in charge of mimi
 ```lua
 function CPU(instructions)
 --[[
-instructions = {
+instructions = 
+{
   {
   0, Opcode
   0, Stack position
